@@ -1,0 +1,13 @@
+Load Test Report — my-service
+============================
+
+Breaking point detected at 6 concurrent users (p95 jumped 205.6ms → 519.2ms).
+
+Safe capacity: ~18 concurrent users under a 1000.0ms p95 target.
+Note: Safe capacity is at or past the detected knee — treat this number cautiously, the system may already be close to its breaking point here.
+
+Diagnosis:
+The system met the SLA (p95 < 1000ms) up to 18 concurrent users but failed at 22+. A "knee" in latency occurred at 6 users, where p95 jumped from 205ms to 519ms, signaling a breaking point. While CPU usage stayed below 65% and DB/pool waits were absent, the metrics endpoint timed out 5 times, with one request hitting 2006ms latency. This suggests the endpoint is struggling under load, causing delays that push p95 over the SLA. The "service_unresponsive_under_load" signal is likely due to these timeouts, not CPU or DB limits. Confidence is medium, as other metrics don’t show clear bottlenecks. Next, investigate the metrics endpoint’s configuration or dependencies to resolve the timeouts.
+
+Suggested remediation:
+The most likely root cause is the metrics endpoint's high latency (2006ms max) and timeouts (5 instances), indicating a potential bottleneck in the main request path. Fix: Add a dedicated lightweight health-check path to bypass the main queue. Also, investigate if unresponsiveness is downstream of another signal, as the DB and worker queues show no significant issues.

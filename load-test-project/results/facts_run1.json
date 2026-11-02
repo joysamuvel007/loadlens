@@ -1,0 +1,60 @@
+{
+  "load_test_steps": [
+    {
+      "concurrency": 10,
+      "count": 10,
+      "p50_ms": 1516.8995999265462,
+      "p95_ms": 1517.9172998759896,
+      "error_rate": 0.0
+    },
+    {
+      "concurrency": 30,
+      "count": 30,
+      "p50_ms": 3354.2806999757886,
+      "p95_ms": 4746.30910018459,
+      "error_rate": 0.0
+    },
+    {
+      "concurrency": 50,
+      "count": 50,
+      "p50_ms": 3483.811799902469,
+      "p95_ms": 6393.365600146353,
+      "error_rate": 0.0
+    },
+    {
+      "concurrency": 70,
+      "count": 70,
+      "p50_ms": 4710.581500083208,
+      "p95_ms": 7209.947100142017,
+      "error_rate": 0.0
+    },
+    {
+      "concurrency": 90,
+      "count": 90,
+      "p50_ms": 4965.360000031069,
+      "p95_ms": 7703.615699894726,
+      "error_rate": 0.0
+    }
+  ],
+  "knee": {
+    "knee_concurrency": 30,
+    "p95_before_ms": 1517.9,
+    "p95_after_ms": 4746.3
+  },
+  "vitals_summary": {
+    "cpu_busiest_core_max": 64.7,
+    "cpu_busiest_core_avg": 32.2,
+    "cpu_avg_max": 31.2,
+    "metrics_endpoint_timeout_count": 4,
+    "metrics_endpoint_latency_max_ms": 2452.2,
+    "db_pool_wait_ever_nonzero": false,
+    "db_pool_wait_max": 0.0,
+    "rate_limit_rejections_total": 0.0
+  },
+  "signals_present": [
+    "CPU_pressure_moderate",
+    "service_unresponsive_under_load"
+  ],
+  "signal_count": 2,
+  "note": "Multiple signals present at once \u2014 do not force a single label, present all of them with evidence."
+}

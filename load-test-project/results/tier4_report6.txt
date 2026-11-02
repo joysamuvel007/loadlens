@@ -1,0 +1,17 @@
+Load Test Report — my-service
+============================
+
+No clear breaking point detected in the tested range.
+
+Safe capacity: ~2 concurrent users under a 100.0ms p95 target.
+
+Diagnosis:
+The service's performance degraded starting at 5 concurrent users, with latency (p95) exceeding the 100ms SLA. The root cause is **DB_pool_contention**, identified by the "waiting_for_db_pool" metric, which spiked at 6.44 seconds at 8 concurrent users—coinciding with latency spikes. Goodput plateaued at ~48.4 RPS from 5 concurrent users, indicating the DB became the limiting factor. While CPU usage stayed below 73% and no other bottlenecks were detected, the DB pool wait time grew linearly with load, confirming it as the trigger. Only the 2-concurrent-user step met the SLA. Confidence is **high** due to clear correlation between DB wait times and latency. Next, investigate DB query performance, connection pool size, or indexing to resolve the contention.
+
+Measured evidence (computed, not AI):
+- Capacity limit: successful responses stopped growing at ~48.4/s from concurrency 5.
+- Attribution status: identified
+- [trigger] waiting_for_db_pool stayed near 0.0 and then rose at concurrency 8, within 0 step(s) of latency starting to rise (at 8).
+
+Suggested remediation:
+The most likely root cause is DB_pool_contention, as waiting times spiked at concurrency 8, correlating with latency increases. Prioritize "Increase the database connection pool size" to handle higher concurrency. Also check for "slow queries holding connections longer than necessary" to address potential connection leaks. Other fixes like read replicas or caching are less directly supported by the evidence.

@@ -1,0 +1,13 @@
+Load Test Report — my-service
+============================
+
+No clear breaking point detected in the tested range.
+
+Safe capacity: ~38 concurrent users under a 1000.0ms p95 target.
+Note: The SLA was never violated up to the highest tested concurrency (38). Real capacity is AT LEAST this high, but the true limit was not found — re-run with a higher --max to find it.
+
+Diagnosis:
+All tested concurrency levels (2–38) met the 1000ms SLA, with p95 latency staying well below the threshold even at highest load. No bottlenecks (CPU, DB, rate limits, or queueing) were detected. CPU usage peaked at 64.6% on a single core, well below saturation. Database and rate-limit metrics remained idle, and no requests timed out. Confidence is high that the system handled the load smoothly. Next, verify if the SLA is appropriately set or test under even higher concurrency to ensure long-term scalability.
+
+Suggested remediation:
+No SLA violation in the tested range, so no remediation is suggested. Re-test at higher concurrency to find the real limit.

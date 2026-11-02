@@ -1,0 +1,9 @@
+Load Test Report — cpu-only-endpoint
+===================================
+
+Breaking point detected at 10 concurrent users (p95 jumped 509.0ms → 1037.2ms).
+
+Safe capacity: ~5 concurrent users under a 1000.0ms p95 target.
+
+Diagnosis:
+The load test shows latency increasing steadily as concurrency rises, with a noticeable jump in 95th percentile latency (from ~509ms to ~1,037ms) at 10 concurrent users. However, no specific bottlenecks like CPU saturation, database waits, or rate limiting were detected. CPU usage remained below 58%, and there were no errors. The highest observed latency (1,560ms) occurred at the metrics endpoint, but this may not directly relate to the main system’s performance. Since no clear signals were identified, the latency increase could stem from application logic, network delays, or resource contention not captured by the metrics. Confidence is medium due to lack of concrete evidence. Next, investigate application code or network paths for hidden delays, especially around the 10-concurrency threshold where latency spiked.

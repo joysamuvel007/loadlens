@@ -1,0 +1,69 @@
+{
+  "load_test_steps": [
+    {
+      "concurrency": 5,
+      "count": 5,
+      "p50_ms": 755.7921000116039,
+      "p95_ms": 991.0652000107802,
+      "error_rate": 0.0
+    },
+    {
+      "concurrency": 10,
+      "count": 10,
+      "p50_ms": 1129.0824000025168,
+      "p95_ms": 1515.1148000149988,
+      "error_rate": 0.0
+    },
+    {
+      "concurrency": 15,
+      "count": 15,
+      "p50_ms": 1148.2605999917723,
+      "p95_ms": 2085.676299990155,
+      "error_rate": 0.0
+    },
+    {
+      "concurrency": 20,
+      "count": 20,
+      "p50_ms": 1871.9049999781419,
+      "p95_ms": 2913.786999997683,
+      "error_rate": 0.0
+    },
+    {
+      "concurrency": 25,
+      "count": 25,
+      "p50_ms": 2195.5631999881007,
+      "p95_ms": 3885.8324000029825,
+      "error_rate": 0.0
+    },
+    {
+      "concurrency": 30,
+      "count": 30,
+      "p50_ms": 2434.0261000033934,
+      "p95_ms": 4105.048799974611,
+      "error_rate": 0.0
+    }
+  ],
+  "knee": {
+    "knee_concurrency": 10,
+    "p95_before_ms": 991.1,
+    "p95_after_ms": 1515.1
+  },
+  "vitals_summary": {
+    "cpu_busiest_core_max": 85.3,
+    "cpu_busiest_core_avg": 47.6,
+    "cpu_avg_max": 40.9,
+    "metrics_endpoint_timeout_count": 0,
+    "metrics_endpoint_latency_max_ms": 889.6,
+    "db_pool_wait_ever_nonzero": false,
+    "db_pool_wait_max": 0.0,
+    "rate_limit_rejections_total": 0.0,
+    "queued_for_worker_max": 22.0,
+    "active_workers_max": 3.0
+  },
+  "signals_present": [
+    "CPU_saturation",
+    "worker_pool_queueing"
+  ],
+  "signal_count": 2,
+  "note": "Multiple signals present at once \u2014 do not force a single label, present all of them with evidence."
+}

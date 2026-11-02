@@ -1,0 +1,10 @@
+{
+  "sla_p95_ms": 1000.0,
+  "max_error_rate": 0.01,
+  "safe_capacity": 5,
+  "safe_capacity_p95_ms": 991.1,
+  "first_violating_concurrency": 10,
+  "first_violating_p95_ms": 1515.1,
+  "knee_concurrency": 10,
+  "note": null
+}

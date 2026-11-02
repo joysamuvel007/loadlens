@@ -1,0 +1,3 @@
+INVALID LOAD TEST — no diagnosis attempted.
+
+100% of requests failed at the lowest tested concurrency (2). The target was failing or unreachable before any real load, so this run cannot be diagnosed. Example error: 'All connection attempts failed'. Check the server is running, the URL/endpoint is correct, and the server logs.

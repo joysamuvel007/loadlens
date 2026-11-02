@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Bottleneck Target — Live Metrics</title>
+    <style>
+        body {
+            font-family: -apple-system, sans-serif;
+            background: #0f1115;
+            color: #e6e6e6;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: #1a1d24;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .card .label {
+            font-size: 0.8rem;
+            color: #9aa0aa;
+        }
+
+        .card .value {
+            font-size: 1.6rem;
+            margin-top: 4px;
+        }
+
+        .endpoints {
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            color: #9aa0aa;
+            line-height: 1.6;
+        }
+
+        code {
+            background: #1a1d24;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #7dd3fc;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>sample-target-app — live metrics</h1>
+    <p style="color:#9aa0aa;font-size:0.85rem;">Polling /metrics every 500ms. Point your load generator at any /api/*
+        endpoint and watch these move.</p>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="endpoints">
+        <p><strong>Endpoints:</strong></p>
+        <p><code>POST /api/baseline/quick</code> — calibration control, no bottleneck</p>
+        <p><code>POST /api/cpu/sync</code> / <code>POST /api/cpu/async</code> — CPU-bound</p>
+        <p><code>POST /api/db/query</code> — DB-pool-bound</p>
+        <p><code>POST /api/memory/allocate</code> — memory-bound</p>
+        <p><code>POST /api/external/call</code> — downstream rate-limit-bound</p>
+        <p><code>POST /api/flaky/call</code> — random slowness/failures, load-independent</p>
+        <p><code>POST /api/mixed/process</code> — all constraints combined (realistic)</p>
+    </div>
+
+    <script>
+        async function poll() {
+            try {
+                const res = await fetch('/metrics');
+                const data = await res.json();
+                const grid = document.getElementById('grid');
+                grid.innerHTML = '';
+                for (const [key, value] of Object.entries(data.counters)) {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `<div class="label">${key}</div><div class="value">${value}</div>`;
+                    grid.appendChild(card);
+                }
+            } catch (e) {
+                console.error('metrics poll failed', e);
+            }
+            setTimeout(poll, 500);
+        }
+        poll();
+    </script>
+</body>
+
+</html>

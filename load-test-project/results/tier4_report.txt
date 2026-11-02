@@ -1,0 +1,13 @@
+Load Test Report — my-service
+============================
+
+Breaking point detected at 30 concurrent users (p95 jumped 1517.9ms → 4746.3ms).
+
+Safe capacity: ~0 concurrent users under a 1000.0ms p95 target.
+Note: No tested concurrency level stayed under the 1000.0ms SLA — even the lowest tested load violated it. Recommend re-testing at lower concurrency levels to find a true safe point.
+
+Diagnosis:
+The load test shows no concurrency level met the 1000ms p95 SLA. Latency spikes sharply at 30 concurrent users, with p95 jumping from 1517ms (at 10 users) to 4746ms (at 30 users). This indicates a breaking point around 30 users, likely due to moderate CPU pressure (busiest core at 84.8%), though CPU isn't fully saturated. No other bottlenecks like DB waits, rate limits, or memory issues were detected. Confidence is medium, as CPU usage alone doesn’t fully explain the latency jump. Next, investigate how the application handles requests at 30 users, checking for potential bottlenecks in processing or network limits.
+
+Suggested remediation:
+The CPU_pressure_moderate signal likely stems from inefficient code paths, as core max usage (84.8%) exceeds average (35.4%), indicating non-ambient noise. First, confirm consistency by re-running the test. Then profile the code to identify the hot function causing excessive CPU load. These steps address the root cause without overhauling unrelated systems.
